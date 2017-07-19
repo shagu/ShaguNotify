@@ -6,3 +6,6 @@
 
 # lib
 libs\libnotify.lua
+
+# trigger
+trigger\quest_complete.lua
