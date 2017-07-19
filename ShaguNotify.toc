@@ -1,0 +1,8 @@
+## Interface: 11200
+## Title: |cff33ffccShagu|cffffffffNotify
+## Author: Shagu
+## Notes: An Achievement Alike Notification System For Custom Events
+## Version: 0.1
+
+# lib
+libs\libnotify.lua
