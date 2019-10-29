@@ -1,5 +1,18 @@
 --[[ quest_complete]]--
 -- A notification trigger for quest objective commpletion
+local _G = getfenv(0)
+local _, _, _, client = GetBuildInfo()
+client = client or 11200
+
+local function GetQuestLogTitle(id)
+  local title, level, tag, group, header, collapsed, complete, daily, _
+  if client <= 11200 then -- vanilla
+    title, level, tag, header, collapsed, complete = _G.GetQuestLogTitle(id)
+  elseif client > 11200 then -- tbc
+    title, level, tag, group, header, collapsed, complete, daily = _G.GetQuestLogTitle(id)
+  end
+  return title, level, tag, header, collapsed, complete
+end
 
 local frame = CreateFrame("Frame")
 frame:RegisterEvent("QUEST_WATCH_UPDATE")
