@@ -3,6 +3,18 @@ libnotify.window = {}
 
 libnotify.max_window = 5
 
+-- detect current addon path
+local addonpath
+local tocs = { "", "-master", "-tbc", "-wotlk" }
+for _, name in pairs(tocs) do
+  local current = string.format("ShaguNotify%s", name)
+  local _, title = GetAddOnInfo(current)
+  if title then
+    addonpath = "Interface\\AddOns\\" .. current
+    break
+  end
+end
+
 function libnotify:CreateFrame()
   local frame = CreateFrame("Button", "Achievment", UIParent)
 
@@ -65,7 +77,7 @@ function libnotify:CreateFrame()
   end
 
   frame.background = frame:CreateTexture("background", "BACKGROUND")
-  frame.background:SetTexture("Interface\\AddOns\\ShaguNotify\\textures\\UI-Achievement-Alert-Background")
+  frame.background:SetTexture(addonpath .. "\\textures\\UI-Achievement-Alert-Background")
   frame.background:SetPoint("TOPLEFT", 0, 0)
   frame.background:SetPoint("BOTTOMRIGHT", 0, 0)
   frame.background:SetTexCoord(0, .605, 0, .703)
@@ -83,7 +95,7 @@ function libnotify:CreateFrame()
   frame.name:SetPoint("BOTTOMRIGHT", -60, 36)
 
   frame.glow = frame:CreateTexture("glow", "OVERLAY")
-  frame.glow:SetTexture("Interface\\AddOns\\ShaguNotify\\textures\\UI-Achievement-Alert-Glow")
+  frame.glow:SetTexture(addonpath .. "\\textures\\UI-Achievement-Alert-Glow")
   frame.glow:SetBlendMode("ADD")
   frame.glow:SetWidth(400)
   frame.glow:SetHeight(171)
@@ -93,7 +105,7 @@ function libnotify:CreateFrame()
 
   frame.shine = frame:CreateTexture("shine", "OVERLAY")
   frame.shine:SetBlendMode("ADD")
-  frame.shine:SetTexture("Interface\\AddOns\\ShaguNotify\\textures\\UI-Achievement-Alert-Glow")
+  frame.shine:SetTexture(addonpath .. "\\textures\\UI-Achievement-Alert-Glow")
   frame.shine:SetWidth(67)
   frame.shine:SetHeight(72)
   frame.shine:SetPoint("BOTTOMLEFT", 0, 8)
@@ -108,14 +120,14 @@ function libnotify:CreateFrame()
   --[[
   frame.icon.backfill = frame.icon:CreateTexture("backfill", "BACKGROUND")
   frame.icon.backfill:SetBlendMode("ADD")
-  frame.icon.backfill:SetTexture("Interface\\AddOns\\ShaguNotify\\textures\\UI-Achievement-IconFrame-Backfill")
+  frame.icon.backfill:SetTexture(addonpath .. "\\textures\\UI-Achievement-IconFrame-Backfill")
   frame.icon.backfill:SetPoint("CENTER", 0, 0)
   frame.icon.backfill:SetWidth(64)
   frame.icon.backfill:SetHeight(64)
   ]]--
 
   frame.icon.bling = frame.icon:CreateTexture("bling", "BORDER")
-  frame.icon.bling:SetTexture("Interface\\AddOns\\ShaguNotify\\textures\\UI-Achievement-Bling")
+  frame.icon.bling:SetTexture(addonpath .. "\\textures\\UI-Achievement-Bling")
   frame.icon.bling:SetPoint("CENTER", -1, 1)
   frame.icon.bling:SetWidth(116)
   frame.icon.bling:SetHeight(116)
@@ -126,7 +138,7 @@ function libnotify:CreateFrame()
   frame.icon.texture:SetHeight(50)
 
   frame.icon.overlay = frame.icon:CreateTexture("overlay", "OVERLAY")
-  frame.icon.overlay:SetTexture("Interface\\AddOns\\ShaguNotify\\textures\\UI-Achievement-IconFrame")
+  frame.icon.overlay:SetTexture(addonpath .. "\\textures\\UI-Achievement-IconFrame")
   frame.icon.overlay:SetPoint("CENTER", -1, 2)
   frame.icon.overlay:SetHeight(72)
   frame.icon.overlay:SetWidth(72)
@@ -138,7 +150,7 @@ function libnotify:CreateFrame()
   frame.shield:SetPoint("TOPRIGHT", -10, -13)
 
   frame.shield.icon = frame.shield:CreateTexture("icon", "BACKGROUND")
-  frame.shield.icon:SetTexture("Interface\\AddOns\\ShaguNotify\\textures\\UI-Achievement-Shields")
+  frame.shield.icon:SetTexture(addonpath .. "\\textures\\UI-Achievement-Shields")
   frame.shield.icon:SetWidth(52)
   frame.shield.icon:SetHeight(48)
   frame.shield.icon:SetPoint("TOPRIGHT", 1, -8)
