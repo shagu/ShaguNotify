@@ -14,18 +14,49 @@ local function GetQuestLogTitle(id)
   return title, level, tag, header, collapsed, complete
 end
 
-local frame = CreateFrame("Frame")
-frame:RegisterEvent("QUEST_WATCH_UPDATE")
-frame:RegisterEvent("UNIT_QUEST_LOG_CHANGED")
-frame.queue = nil
-frame:SetScript("OnEvent", function()
-  if event == "QUEST_WATCH_UPDATE" then
-    frame.queue = arg1
-  elseif event == "UNIT_QUEST_LOG_CHANGED" and frame.queue and arg1 == "player" then
-    local title, level, tag, header, collapsed, complete = GetQuestLogTitle(frame.queue)
-    if complete then
-      libnotify:ShowPopup(title, level, nil, tag)
+local quests = {}
+
+local function IsCurrentQuest(title)
+  for qlogid=1,40 do
+    local qtitle = GetQuestLogTitle(qlogid)
+    if qtitle and qtitle == title then
+      return true
     end
-    frame.queue = nil
+  end
+
+  return nil
+end
+
+local function ScanCompletedQuests(silent)
+  for qlogid=1,40 do
+    local title, level, tag, header, collapsed, complete = GetQuestLogTitle(qlogid)
+    if title and complete and not quests[title] then
+      if not silent then libnotify:ShowPopup(title, level, nil, tag) end
+      quests[title] = true
+    elseif title and quests[title] and not complete then
+      -- remove completed quest
+      quests[title] = nil
+    end
+  end
+end
+
+local frame = CreateFrame("Frame")
+frame:RegisterEvent("PLAYER_ENTERING_WORLD")
+frame:RegisterEvent("UNIT_QUEST_LOG_CHANGED")
+frame:SetScript("OnEvent", function()
+  if event == "UNIT_QUEST_LOG_CHANGED" and arg1 == "player" then
+    ScanCompletedQuests()
+  elseif event == "PLAYER_ENTERING_WORLD" then
+    ScanCompletedQuests(true)
+  end
+
+  -- cleanup cached quests (run max. 1 time per second)
+  if ( this.tick or 1) > GetTime() then return else this.tick = GetTime() + 1 end
+  for title in pairs(quests) do
+    if not IsCurrentQuest(title) then
+      quests[title] = nil
+    end
   end
 end)
+
+
