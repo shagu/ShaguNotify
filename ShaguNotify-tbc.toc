@@ -9,3 +9,4 @@ libs\libnotify.lua
 
 # trigger
 trigger\quest_complete.lua
+trigger\combat_survive.lua
