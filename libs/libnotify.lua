@@ -163,10 +163,10 @@ function libnotify:CreateFrame()
   return frame
 end
 
-function libnotify:ShowPopup(text, points, icon, elite)
+function libnotify:ShowPopup(text, points, icon, elite, header)
   for i=1, libnotify.max_window do
     if not libnotify.window[i]:IsVisible() then
-      libnotify.window[i].unlocked:SetText(COMPLETE)
+      libnotify.window[i].unlocked:SetText(header or COMPLETE)
       libnotify.window[i].name:SetText(text or "DUMMY")
       libnotify.window[i].icon.texture:SetTexture(icon or "Interface\\QuestFrame\\UI-QuestLog-BookIcon")
 
