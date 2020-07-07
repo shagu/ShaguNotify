@@ -10,4 +10,5 @@ libs\libnotify.lua
 # trigger
 trigger\quest_complete.lua
 trigger\combat_survive.lua
+trigger\exploration.lua
 trigger\levelup.lua
