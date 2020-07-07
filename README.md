@@ -7,6 +7,7 @@ A Vanilla Addon/Library to show achievement alike notifications for several even
 - **Quest Completion:** A notification is shown for each completed quest
 - **Level Up:** Triggers each Levelup. Every 10th level is shown as special notification
 - **Combat Survive:** Survive having less than 3% Health during a fight
+- **Exploration:** Triggers whenever a new area is discovered
 
 # Video
 [![Youtube Video](https://img.youtube.com/vi/_PXG04rTotw/0.jpg)](https://www.youtube.com/watch?v=_PXG04rTotw)
