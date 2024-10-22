@@ -16,17 +16,6 @@ end
 
 local quests = {}
 
-local function IsCurrentQuest(title)
-  for qlogid=1,40 do
-    local qtitle = GetQuestLogTitle(qlogid)
-    if qtitle and qtitle == title then
-      return true
-    end
-  end
-
-  return nil
-end
-
 local function ScanCompletedQuests(silent)
   for qlogid=1,40 do
     local title, level, tag, header, collapsed, complete = GetQuestLogTitle(qlogid)
@@ -41,22 +30,13 @@ local function ScanCompletedQuests(silent)
 end
 
 local frame = CreateFrame("Frame")
-frame:RegisterEvent("PLAYER_ENTERING_WORLD")
+frame:RegisterEvent("QUEST_LOG_UPDATE")
 frame:RegisterEvent("UNIT_QUEST_LOG_CHANGED")
 frame:SetScript("OnEvent", function()
   if event == "UNIT_QUEST_LOG_CHANGED" and arg1 == "player" then
     ScanCompletedQuests()
-  elseif event == "PLAYER_ENTERING_WORLD" then
+  elseif event == "QUEST_LOG_UPDATE" then
+    this:UnregisterEvent("QUEST_LOG_UPDATE")
     ScanCompletedQuests(true)
   end
-
-  -- cleanup cached quests (run max. 1 time per second)
-  if ( this.tick or 1) > GetTime() then return else this.tick = GetTime() + 1 end
-  for title in pairs(quests) do
-    if not IsCurrentQuest(title) then
-      quests[title] = nil
-    end
-  end
 end)
-
-
