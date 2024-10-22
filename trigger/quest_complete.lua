@@ -30,13 +30,18 @@ local function ScanCompletedQuests(silent)
 end
 
 local frame = CreateFrame("Frame")
-frame:RegisterEvent("QUEST_LOG_UPDATE")
+frame.lock = GetTime() + 3
+
 frame:RegisterEvent("UNIT_QUEST_LOG_CHANGED")
 frame:SetScript("OnEvent", function()
-  if event == "UNIT_QUEST_LOG_CHANGED" and arg1 == "player" then
+  if arg1 == "player" then
     ScanCompletedQuests()
-  elseif event == "QUEST_LOG_UPDATE" then
-    this:UnregisterEvent("QUEST_LOG_UPDATE")
+  end
+end)
+
+frame:SetScript("OnUpdate", function()
+  if GetTime() > frame.lock then
     ScanCompletedQuests(true)
+    this:Hide()
   end
 end)
